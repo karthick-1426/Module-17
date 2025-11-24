@@ -1,57 +1,80 @@
-# Ex. No: 17A - Generate a Graph for a Given Fixed Degree Sequence
+# Ex. No: 17A - Adjacency List Representation of a Graph
 
 ## AIM:
-To write a Python program to generate a graph for a given **fixed degree sequence**.
+To write a Python program to demonstrate the **adjacency list representation** of the given graph.
+
+---
 
 ## ALGORITHM:
 
 **Step 1**: Start the program.
 
-**Step 2**: Check if the sum of the degree sequence is even.  
-> (A necessary condition for the sequence to be graphical.)
+**Step 2**: Define a class `AdjNode` to create a node for each adjacent vertex:
+- Store the **vertex number**.
+- Store the **link to the next adjacent node**.
 
-- If not even, print an error message and exit the program.
+**Step 3**: Define a class `Graph` to create the graph using adjacency lists:
+- Initialize the **number of vertices**.
+- Create a **list (array)** of size `V`, where each element is initially `None`.
 
-**Step 3**: Use the **Havel-Hakimi algorithm** to determine whether a simple graph can be constructed from the sequence, and to generate the graph.
+**Step 4**: Define a method `add_edge(src, dest)` to:
+- Add `dest` to the adjacency list of `src`.
+- Add `src` to the adjacency list of `dest` (for **undirected graphs**).
 
-**Step 4**: If the graph is successfully created, **visualize it** using a graph drawing function (e.g., `networkx.draw()`).
+**Step 5**: Define a method `print_graph()` to:
+- Traverse the adjacency list of each vertex.
+- Print the **vertex** and its **adjacent nodes**.
 
-**Step 5**: End the program.
+**Step 6**: In the main program:
+- Create a `Graph` object with `V` vertices.
+- Call `add_edge()` for all desired edges.
+- Call `print_graph()` to display the adjacency list.
+
+**Step 7**: End the program.
+
+---
 
 ## PYTHON PROGRAM
 
 ```python
-def printMat(degseq, n):
-    mat=[[0]*n for i in range(n)]
-    
-    for i in range(n):
-	    for j in range(i+1,n):
-	        if(degseq[i]>0 and degseq[j]>0):
-	            degseq[i]-=1
-	            degseq[j]-=1
-	            mat[i][j]=1
-	            mat[j][i]=1
-	            
-    print("      ", end ="")
-    for i in range(n):
-	    print(" ", "(", i, ")", end ="")
-    print()
-    print()
-    for i in range(n):
-    	print("  ", "(", i, ")", end = " ")
-    	for j in range(n):
-    		print("  ", mat[i][j], end = " ")
-    	print()
-degseq=[]
-for i in range(0, 5):
-    ele = int(input())
-    degseq.append(ele)
-n = len(degseq)
-printMat(degseq, n)
+class AdjNode:
+	def __init__(self, data):
+		self.vertex = data
+		self.next = None
+class Graph:
+	def __init__(self,vertices):
+		self.V = vertices
+		self.graph = [None] * self.V
+	def add_edge(self, src, dest):
+		node = AdjNode(dest)
+		node.next = self.graph[src]
+		self.graph[src] = node
+		node = AdjNode(src)
+		node.next = self.graph[dest]
+		self.graph[dest] = node
+	def print_graph(self):
+		for i in range(self.V):
+			print(f"Adjacency list of vertex {i}\n {i}",end="")
+			temp = self.graph[i]
+			while temp:
+				print(f' -> {temp.vertex}',end="")
+				temp = temp.next
+			print("\n")
+if __name__ == "__main__":
+	V = 5
+	graph = Graph(V)
+	graph.add_edge(0, 1)
+	graph.add_edge(0, 4)
+	graph.add_edge(1, 2)
+	graph.add_edge(1, 3)
+	graph.add_edge(1, 4)
+	graph.add_edge(2, 3)
+	graph.add_edge(3, 4)
+	graph.print_graph()
 ```
 
 ## OUTPUT
-<img width="1186" height="337" alt="image" src="https://github.com/user-attachments/assets/646d61e7-7ae8-4f33-9d2d-e7ddc8464bf4" />
+<img width="1186" height="509" alt="image" src="https://github.com/user-attachments/assets/3e16e3aa-8f68-4e8b-b6cb-9afbd7fd6f19" />
 
 ## RESULT
-Therefore, the output is the example to write a Python program to generate a graph for a given **fixed degree sequence**.
+Therefore, the output is the example to write a Python program to demonstrate the **adjacency list representation** of the given graph.
